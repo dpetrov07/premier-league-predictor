@@ -1,0 +1,66 @@
+/* Container */
+.container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Header */
+.header {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 40px;
+}
+
+/* Sections */
+.section {
+  margin-bottom: 40px;
+}
+
+.section-title {
+  font-size: 24px;
+  color: #34495e;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 6px;
+  margin-bottom: 20px;
+}
+
+/* Team list */
+.team-list {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.team-list li {
+  font-size: 18px;
+  padding: 8px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Matches table */
+.matches-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.matches-table th {
+  background-color: #3498db;
+  color: white;
+  text-align: left;
+  padding: 12px 15px;
+}
+
+.matches-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #ddd;
+  font-size: 16px;
+}
+
+.matches-table tbody tr:hover {
+  background-color: #f1f1f1;
+  cursor: default;
+}
