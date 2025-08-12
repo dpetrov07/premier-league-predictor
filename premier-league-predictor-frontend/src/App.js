@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useEffect, useState } from "react";
 import "./App.css";
 
@@ -9,6 +10,14 @@ function App() {
       .then((response) => response.json())
       .then((data) => setUpcomingMatches(data))
   }, []);
+
+  const handleMatchClick = (match) => {
+    const matchId = match.id
+    axios.post("/api/predict-match", { matchId })
+    .then((response) => {
+      console.log(response.data)
+    })
+  }
 
   return (
     <div className="container">

@@ -1,3 +1,4 @@
+import uuid
 from flask import Flask, jsonify
 from flask_cors import CORS
 from sklearn.ensemble import RandomForestClassifier
@@ -72,20 +73,37 @@ def use_random_forest_classifier(data, predictors):
     precision = precision_score(test["result_code"], preds, average="macro")
     return combined, precision
 
-# API call to fetch next future 10 games
+
+
+#
+# API calls
+#
 app = Flask(__name__)
 CORS(app)
 
 @app.route("/api/future-matches")
 def get_future_matches():
     matches = get_matches_data()
-    future_matches = matches[matches["date"] > "2022-01-01"].sort_values("date")
+    # Gets matches after Jan 1 2022
+    future_matches = matches[matches["date"] > "2022-01-01"].sort_values(by=["date", "time"])
+
+    # Removes duplicate matches based on date and new column of combined teams
+    future_matches["match_teams"] = future_matches.apply(lambda row: tuple(sorted([row["team"], 
+        row["opponent"]])), axis=1)
+    future_matches["id"] = future_matches.apply(lambda row: uuid.uuid4(), axis=1)
+    future_matches = future_matches.drop_duplicates(subset=["date", "match_teams"], keep="first")
+    
+    # Gets next 10 matches and formats into readable date
     future_ten_matches = future_matches[["date", "time", "team", "opponent"]].head(10)
     future_ten_matches["date"] = future_ten_matches["date"].apply(lambda x: x.strftime('%Y-%m-%d'))
     return jsonify(future_ten_matches.to_dict(orient="records"))
 
 if __name__ == "__main__":
     app.run(debug=True, port=5050)
+
+@app.route("/api/predict-match", methods=["POST"])
+def get_match_prediction():
+    return
 
 
 #
@@ -96,7 +114,8 @@ matches_rolling = get_rolling_averages(matches)
 
 # Adds calculated rolling averages stats into table
 matches = matches.merge(
-    matches_rolling[["date", "team"] + [col for col in matches_rolling.columns if col.endswith("_rolling")]],
+    matches_rolling[["date", "team"] + [col for col in matches_rolling.columns
+        if col.endswith("_rolling")]],
     on=["date", "team"],
     how="left"
 )
