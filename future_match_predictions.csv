@@ -1,0 +1,277 @@
+date,actual,predicted,team,opponent
+2022-01-02,1,-1,Burnley,Burnley
+2022-01-02,-1,0,Brighton,Brighton
+2022-01-02,-1,0,Brentford,Brentford
+2022-01-02,1,-1,Everton,Everton
+2022-01-02,1,-1,Aston Villa,Aston Villa
+2022-01-02,0,-1,,Liverpool
+2022-01-02,-1,-1,Leeds United,Leeds United
+2022-01-03,-1,1,Wolves,Wolves
+2022-01-03,1,-1,Manchester Utd,Manchester Utd
+2022-01-11,-1,-1,Southampton,Southampton
+2022-01-11,1,1,Brentford,Brentford
+2022-01-12,1,1,Norwich City,Norwich City
+2022-01-12,-1,-1,West Ham,West Ham
+2022-01-14,0,-1,Crystal Palace,Crystal Palace
+2022-01-14,0,-1,Brighton,Brighton
+2022-01-15,0,-1,Newcastle Utd,Newcastle Utd
+2022-01-15,-1,-1,Norwich City,Norwich City
+2022-01-15,-1,1,Manchester City,Manchester City
+2022-01-15,1,-1,Everton,Everton
+2022-01-15,1,-1,Chelsea,Chelsea
+2022-01-15,0,-1,Manchester Utd,Manchester Utd
+2022-01-15,1,-1,Southampton,Southampton
+2022-01-15,0,-1,Aston Villa,Aston Villa
+2022-01-15,-1,-1,Wolves,Wolves
+2022-01-15,0,-1,Watford,Watford
+2022-01-16,1,-1,West Ham,West Ham
+2022-01-16,-1,-1,Leeds United,Leeds United
+2022-01-16,-1,-1,,Liverpool
+2022-01-18,0,-1,Brighton,Brighton
+2022-01-18,0,-1,Chelsea,Chelsea
+2022-01-19,1,1,Leicester City,Leicester City
+2022-01-19,1,-1,Brentford,Brentford
+2022-01-19,-1,-1,Manchester Utd,Manchester Utd
+2022-01-19,-1,-1,Tottenham,Tottenham
+2022-01-21,-1,1,Norwich City,Norwich City
+2022-01-21,1,-1,Watford,Watford
+2022-01-22,-1,-1,Wolves,Wolves
+2022-01-22,-1,-1,Aston Villa,Aston Villa
+2022-01-22,1,-1,Leeds United,Leeds United
+2022-01-22,0,-1,Manchester City,Manchester City
+2022-01-22,0,1,Southampton,Southampton
+2022-01-22,1,-1,Everton,Everton
+2022-01-22,1,-1,Brentford,Brentford
+2022-01-22,-1,1,Newcastle Utd,Newcastle Utd
+2022-01-22,1,-1,West Ham,West Ham
+2022-01-22,-1,-1,Manchester Utd,Manchester Utd
+2022-01-23,-1,-1,,Liverpool
+2022-01-23,0,1,Arsenal,Arsenal
+2022-01-23,0,-1,Brighton,Brighton
+2022-01-23,-1,1,Chelsea,Chelsea
+2022-01-23,1,-1,Tottenham,Tottenham
+2022-01-23,0,1,Burnley,Burnley
+2022-01-23,0,-1,Leicester City,Leicester City
+2022-02-05,0,-1,Watford,Watford
+2022-02-05,0,-1,Burnley,Burnley
+2022-02-08,-1,0,Newcastle Utd,Newcastle Utd
+2022-02-08,0,-1,Manchester Utd,Manchester Utd
+2022-02-08,0,-1,Burnley,Burnley
+2022-02-08,1,0,Everton,Everton
+2022-02-08,-1,-1,West Ham,West Ham
+2022-02-08,1,1,Watford,Watford
+2022-02-09,1,-1,Tottenham,Tottenham
+2022-02-09,-1,-1,Manchester City,Manchester City
+2022-02-09,-1,1,Southampton,Southampton
+2022-02-09,0,-1,Crystal Palace,Crystal Palace
+2022-02-09,0,-1,Norwich City,Norwich City
+2022-02-09,1,1,Brentford,Brentford
+2022-02-09,0,-1,Leeds United,Leeds United
+2022-02-09,0,-1,Aston Villa,Aston Villa
+2022-02-10,-1,-1,Arsenal,Arsenal
+2022-02-10,1,1,Wolves,Wolves
+2022-02-10,-1,-1,,Liverpool
+2022-02-12,-1,-1,Manchester City,Manchester City
+2022-02-12,0,1,Southampton,Southampton
+2022-02-12,0,-1,Crystal Palace,Crystal Palace
+2022-02-12,1,1,Leeds United,Leeds United
+2022-02-12,-1,1,Brighton,Brighton
+2022-02-12,0,-1,Manchester Utd,Manchester Utd
+2022-02-12,-1,0,Everton,Everton
+2022-02-12,1,1,Norwich City,Norwich City
+2022-02-12,1,0,Watford,Watford
+2022-02-12,0,-1,Brentford,Brentford
+2022-02-13,1,-1,Aston Villa,Aston Villa
+2022-02-13,-1,-1,Newcastle Utd,Newcastle Utd
+2022-02-13,-1,-1,,Liverpool
+2022-02-13,-1,-1,Wolves,Wolves
+2022-02-13,0,1,West Ham,West Ham
+2022-02-13,0,-1,Leicester City,Leicester City
+2022-02-13,1,-1,Tottenham,Tottenham
+2022-02-15,1,1,Brighton,Brighton
+2022-02-15,-1,-1,Manchester Utd,Manchester Utd
+2022-02-19,-1,-1,Watford,Watford
+2022-02-19,-1,-1,Burnley,Burnley
+2022-02-19,-1,1,Tottenham,Tottenham
+2022-02-19,1,1,Brentford,Brentford
+2022-02-19,-1,1,Southampton,Southampton
+2022-02-19,0,1,West Ham,West Ham
+2022-02-19,0,-1,Newcastle Utd,Newcastle Utd
+2022-02-19,1,1,Crystal Palace,Crystal Palace
+2022-02-19,1,1,Everton,Everton
+2022-02-19,1,-1,Aston Villa,Aston Villa
+2022-02-19,-1,1,Arsenal,Arsenal
+2022-02-19,1,-1,Manchester City,Manchester City
+2022-02-19,1,-1,Brighton,Brighton
+2022-02-19,-1,1,Chelsea,Chelsea
+2022-02-19,-1,-1,,Liverpool
+2022-02-20,1,1,Leeds United,Leeds United
+2022-02-20,-1,-1,Manchester Utd,Manchester Utd
+2022-02-20,1,-1,Leicester City,Leicester City
+2022-02-20,-1,-1,Wolves,Wolves
+2022-02-23,1,0,Tottenham,Tottenham
+2022-02-23,1,-1,Watford,Watford
+2022-02-23,-1,0,Burnley,Burnley
+2022-02-23,-1,-1,Crystal Palace,Crystal Palace
+2022-02-23,-1,-1,,Liverpool
+2022-02-24,1,1,Wolves,Wolves
+2022-02-24,-1,-1,Arsenal,Arsenal
+2022-02-25,1,1,Norwich City,Norwich City
+2022-02-25,-1,-1,Southampton,Southampton
+2022-02-26,0,-1,Crystal Palace,Crystal Palace
+2022-02-26,1,1,Everton,Everton
+2022-02-26,-1,-1,Tottenham,Tottenham
+2022-02-26,1,-1,Leeds United,Leeds United
+2022-02-26,1,1,Brentford,Brentford
+2022-02-26,0,-1,Manchester Utd,Manchester Utd
+2022-02-26,-1,-1,Newcastle Utd,Newcastle Utd
+2022-02-26,0,1,Watford,Watford
+2022-02-26,-1,-1,Manchester City,Manchester City
+2022-02-26,0,0,Burnley,Burnley
+2022-02-26,1,0,Brighton,Brighton
+2022-02-26,-1,-1,Aston Villa,Aston Villa
+2022-02-27,-1,-1,West Ham,West Ham
+2022-02-27,1,0,Wolves,Wolves
+2022-03-01,-1,-1,Leicester City,Leicester City
+2022-03-01,1,0,Burnley,Burnley
+2022-03-05,-1,-1,Crystal Palace,Crystal Palace
+2022-03-05,-1,-1,Brentford,Brentford
+2022-03-05,-1,-1,,Liverpool
+2022-03-05,1,1,Brighton,Brighton
+2022-03-05,-1,-1,Aston Villa,Aston Villa
+2022-03-05,1,1,Leeds United,Leeds United
+2022-03-05,1,-1,Southampton,Southampton
+2022-03-05,1,1,Burnley,Burnley
+2022-03-05,-1,-1,Leicester City,Leicester City
+2022-03-05,1,0,Wolves,Wolves
+2022-03-05,1,-1,Norwich City,Norwich City
+2022-03-05,-1,-1,Chelsea,Chelsea
+2022-03-05,-1,1,Newcastle Utd,Newcastle Utd
+2022-03-06,-1,-1,Arsenal,Arsenal
+2022-03-06,1,1,Manchester Utd,Manchester Utd
+2022-03-06,-1,1,Manchester City,Manchester City
+2022-03-06,1,1,Watford,Watford
+2022-03-07,1,-1,Everton,Everton
+2022-03-07,-1,0,Tottenham,Tottenham
+2022-03-10,1,1,Leeds United,Leeds United
+2022-03-10,1,1,Norwich City,Norwich City
+2022-03-10,-1,-1,Aston Villa,Aston Villa
+2022-03-10,-1,1,Newcastle Utd,Newcastle Utd
+2022-03-10,1,-1,Watford,Watford
+2022-03-10,1,1,Southampton,Southampton
+2022-03-10,-1,-1,Wolves,Wolves
+2022-03-10,-1,-1,Chelsea,Chelsea
+2022-03-12,1,1,Tottenham,Tottenham
+2022-03-12,-1,1,Brentford,Brentford
+2022-03-12,-1,-1,,Liverpool
+2022-03-12,1,-1,Burnley,Burnley
+2022-03-12,-1,-1,Manchester Utd,Manchester Utd
+2022-03-13,-1,-1,Wolves,Wolves
+2022-03-13,-1,1,Chelsea,Chelsea
+2022-03-13,1,-1,Southampton,Southampton
+2022-03-13,-1,1,West Ham,West Ham
+2022-03-13,1,-1,Everton,Everton
+2022-03-13,1,1,Aston Villa,Aston Villa
+2022-03-13,-1,1,Arsenal,Arsenal
+2022-03-13,-1,-1,Watford,Watford
+2022-03-13,-1,-1,Leeds United,Leeds United
+2022-03-13,1,1,Leicester City,Leicester City
+2022-03-13,1,-1,Norwich City,Norwich City
+2022-03-13,1,1,Newcastle Utd,Newcastle Utd
+2022-03-14,0,1,Manchester City,Manchester City
+2022-03-14,0,1,Crystal Palace,Crystal Palace
+2022-03-16,1,1,Brighton,Brighton
+2022-03-16,-1,1,,Liverpool
+2022-03-16,-1,-1,Tottenham,Tottenham
+2022-03-17,1,1,Newcastle Utd,Newcastle Utd
+2022-03-17,-1,-1,Everton,Everton
+2022-03-18,-1,0,Leeds United,Leeds United
+2022-03-18,1,0,Wolves,Wolves
+2022-03-19,1,1,Aston Villa,Aston Villa
+2022-03-19,-1,1,Arsenal,Arsenal
+2022-03-20,-1,-1,Leicester City,Leicester City
+2022-03-20,1,0,Brentford,Brentford
+2022-03-20,1,1,West Ham,West Ham
+2022-03-20,-1,-1,Tottenham,Tottenham
+2022-04-02,1,1,Aston Villa,Aston Villa
+2022-04-02,0,-1,Leeds United,Leeds United
+2022-04-02,-1,-1,,Liverpool
+2022-04-02,0,-1,Manchester Utd,Manchester Utd
+2022-04-02,0,-1,Southampton,Southampton
+2022-04-02,1,1,Burnley,Burnley
+2022-04-02,0,-1,Norwich City,Norwich City
+2022-04-02,-1,1,Brentford,Brentford
+2022-04-02,0,-1,Leicester City,Leicester City
+2022-04-02,1,1,Chelsea,Chelsea
+2022-04-02,-1,-1,Wolves,Wolves
+2022-04-02,0,-1,Brighton,Brighton
+2022-04-02,-1,-1,Manchester City,Manchester City
+2022-04-03,1,1,Newcastle Utd,Newcastle Utd
+2022-04-03,-1,-1,Tottenham,Tottenham
+2022-04-03,1,0,Everton,Everton
+2022-04-03,-1,-1,West Ham,West Ham
+2022-04-04,1,1,Arsenal,Arsenal
+2022-04-04,-1,1,Crystal Palace,Crystal Palace
+2022-04-06,-1,-1,Burnley,Burnley
+2022-04-06,1,1,Everton,Everton
+2022-04-08,1,-1,Wolves,Wolves
+2022-04-08,-1,-1,Newcastle Utd,Newcastle Utd
+2022-04-09,1,1,Watford,Watford
+2022-04-09,1,-1,Manchester Utd,Manchester Utd
+2022-04-09,1,-1,Arsenal,Arsenal
+2022-04-09,-1,1,Leeds United,Leeds United
+2022-04-09,-1,1,Brighton,Brighton
+2022-04-09,-1,-1,Chelsea,Chelsea
+2022-04-09,-1,0,Tottenham,Tottenham
+2022-04-09,1,-1,Southampton,Southampton
+2022-04-09,1,1,Aston Villa,Aston Villa
+2022-04-09,-1,-1,Everton,Everton
+2022-04-10,1,1,West Ham,West Ham
+2022-04-10,-1,-1,Brentford,Brentford
+2022-04-10,1,0,Crystal Palace,Crystal Palace
+2022-04-10,-1,-1,Leicester City,Leicester City
+2022-04-10,1,-1,Burnley,Burnley
+2022-04-10,0,1,,Liverpool
+2022-04-10,-1,-1,Norwich City,Norwich City
+2022-04-16,-1,1,Brighton,Brighton
+2022-04-16,-1,-1,Brentford,Brentford
+2022-04-16,-1,-1,Manchester Utd,Manchester Utd
+2022-04-16,-1,1,Southampton,Southampton
+2022-04-16,1,-1,Tottenham,Tottenham
+2022-04-16,1,-1,Norwich City,Norwich City
+2022-04-16,1,1,Watford,Watford
+2022-04-16,1,-1,Arsenal,Arsenal
+2022-04-17,1,-1,Leicester City,Leicester City
+2022-04-17,0,0,Burnley,Burnley
+2022-04-17,-1,0,Newcastle Utd,Newcastle Utd
+2022-04-17,0,-1,West Ham,West Ham
+2022-04-19,-1,-1,,Liverpool
+2022-04-20,0,-1,Leicester City,Leicester City
+2022-04-20,1,1,Chelsea,Chelsea
+2022-04-20,1,1,Brighton,Brighton
+2022-04-20,0,-1,Everton,Everton
+2022-04-20,-1,1,Newcastle Utd,Newcastle Utd
+2022-04-20,1,-1,Crystal Palace,Crystal Palace
+2022-04-20,-1,1,Arsenal,Arsenal
+2022-04-20,-1,-1,Manchester City,Manchester City
+2022-04-21,-1,-1,Burnley,Burnley
+2022-04-21,1,-1,Southampton,Southampton
+2022-04-23,0,-1,Leicester City,Leicester City
+2022-04-23,0,-1,Brentford,Brentford
+2022-04-23,-1,-1,Arsenal,Arsenal
+2022-04-23,-1,-1,Manchester City,Manchester City
+2022-04-23,-1,-1,Newcastle Utd,Newcastle Utd
+2022-04-23,1,1,Manchester Utd,Manchester Utd
+2022-04-23,0,0,Aston Villa,Aston Villa
+2022-04-23,1,1,Norwich City,Norwich City
+2022-04-23,0,1,Tottenham,Tottenham
+2022-04-23,1,1,Watford,Watford
+2022-04-24,0,-1,Southampton,Southampton
+2022-04-24,1,1,West Ham,West Ham
+2022-04-24,0,-1,Brighton,Brighton
+2022-04-24,1,1,Wolves,Wolves
+2022-04-24,-1,-1,Chelsea,Chelsea
+2022-04-24,-1,-1,,Liverpool
+2022-04-24,-1,-1,Burnley,Burnley
+2022-04-25,0,-1,Crystal Palace,Crystal Palace
+2022-04-25,0,-1,Leeds United,Leeds United
