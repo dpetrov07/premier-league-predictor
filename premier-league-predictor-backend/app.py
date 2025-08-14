@@ -58,11 +58,12 @@ def get_rolling_averages(matches, window=3, team_col="team"):
         group[new_cols] = rolling_stats
         group = group.dropna(subset=new_cols)
         return group
-
-    # Apply to each team separately
-    matches_rolling = matches.groupby(team_col).apply(compute_team_rolling, include_groups=False)
-    matches_rolling = matches_rolling.reset_index(level=0, drop=True)
-    matches_rolling.index = range(matches_rolling.shape[0])
+    
+    matches_rolling = (
+        matches.groupby(team_col, group_keys=False)
+        .apply(lambda g: compute_team_rolling(g.copy()))
+        .reset_index(drop=True)
+    )
 
     return matches_rolling
   
@@ -140,25 +141,32 @@ def use_random_forest_classifier(data, predictors):
 # Main method
 # 
 matches_data = get_matches_data()
+# matches_data.to_csv("matches_data.csv", index=False)
 matches_rolling_3 = get_rolling_averages(matches_data, window=3)
+# matches_rolling_3.to_csv("rolling_data.csv", index=False)
 opposition_rolling_3 = get_opponent_rolling_averages(matches_data, window=3)
+# opposition_rolling_3.to_csv("opp_rolling.csv", index=False)
 
 # Merge opponent rolling data into team rolling data
 matches_combined_rolling = matches_rolling_3.merge(
     # Compares team and opponent in both datasets and merges same data
     opposition_rolling_3[
-        ["team", "date"] +
+        ["team", "date", "opp_code"] +
         [col for col in opposition_rolling_3.columns if col.startswith("opp_")]
     ],
     left_on=["opponent", "date"],
     right_on=["team", "date"],
     how="left"
 )
-matches_combined_rolling = matches_combined_rolling.rename(columns={
-    "opp_code_x": "opp_code",
-    "team_x": "team"
-})
-matches_combined_rolling = matches_combined_rolling.drop(columns=["opp_code_y"])
+
+# Drops duplicate columns and renames properly
+matches_combined_rolling = matches_combined_rolling.drop(
+    columns=["team_y", "opp_code_y"]
+)
+matches_combined_rolling = matches_combined_rolling.rename(
+    columns={"team_x": "team", "opp_code_x": "opp_code"}
+)
+# matches_combined_rolling.to_csv("combined_rolling.csv", index=False)
 
 model_predictors = [
     "venue_code", "opp_code",
