@@ -11,8 +11,7 @@ function App() {
       .then((data) => setUpcomingMatches(data))
   }, []);
 
-  const handleMatchClick = (match) => {
-    const matchId = match.id
+  const handleMatchClick = (matchId) => {
     axios.post("/api/predict-match", { matchId })
     .then((response) => {
       console.log(response.data)
@@ -35,8 +34,8 @@ function App() {
             </tr>
           </thead>
           <tbody>
-            {upcomingMatches.map(({ date, time, team, opponent }, i) => (
-              <tr key={i}>
+            {upcomingMatches.map(({ id, date, time, team, opponent }, i) => (
+              <tr key={i} onClick={() => handleMatchClick(id)}>
                 <td>{date}</td>
                 <td>{time}</td>
                 <td>{team}</td>

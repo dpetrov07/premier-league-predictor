@@ -1,14 +1,16 @@
 import uuid
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import precision_score
 import pandas as pd
 
-# Normalizes different team name data
-class MissingDict(dict):
-    __missing__ = lambda self, key: key
+app = Flask(__name__)
+CORS(app)
 
+matches_data = pd.read_csv("matches.csv", index_col=0)
+
+# Normalizes different team name data
 map_values = {
     "Brighton and Hove Albion": "Brighton",
     "Manchester United": "Manchester Utd",
@@ -17,34 +19,24 @@ map_values = {
     "West Ham United": "West Ham",
     "Wolverhampton Wanderers": "Wolves"
 }
-team_name_normalizer = MissingDict(**map_values)
-
 
 # Reads in match data and parses through non numerical values
-def get_matches_data():
-    matches = pd.read_csv("matches.csv", index_col=0)
-    matches["team"] = matches["team"].map(team_name_normalizer)
-    matches["opponent"] = matches["opponent"].map(team_name_normalizer)
-    matches["date"] = pd.to_datetime(matches["date"])
-    matches["id"] = matches.apply(lambda row: uuid.uuid4(), axis=1)
-    matches["venue_code"] = matches["venue"].astype("category").cat.codes
-    matches["opp_code"] = matches["opponent"].astype("category").cat.codes
-    matches["result_code"] = matches["result"].map({"W": 1, "D": 0, "L": -1})
-    pd.set_option("display.max_columns", None)
-    return matches
+matches_data["team"] = matches_data["team"].map(lambda x: map_values.get(x, x))
+matches_data["opponent"] = matches_data["opponent"].map(lambda x: map_values.get(x, x))
+matches_data["date"] = pd.to_datetime(matches_data["date"])
+matches_data["id"] = [str(uuid.uuid4()) for _ in range(len(matches_data))]
+matches_data["venue_code"] = matches_data["venue"].astype("category").cat.codes
+matches_data["opp_code"] = matches_data["opponent"].astype("category").cat.codes
+matches_data["result_code"] = matches_data["result"].map({"W": 1, "D": 0, "L": -1})
 
-# Gets unique future matches so model only predicts each match once
-def get_unique_future_matches(matches=None):
-    if matches is None:    
-        matches = get_matches_data()
+# Gets unique matches so model only predicts each match once
+def get_unique_matches(matches):
     
-    future_matches = matches[matches["date"] > "2022-01-01"].sort_values(by=["date", "time"])
-    
-    future_matches["match_teams"] = future_matches.apply(
+    matches["match_teams"] = matches.apply(
         lambda row: tuple(sorted([row["team"], row["opponent"]])), axis=1
     )
-    future_matches = future_matches.drop_duplicates(subset=["date", "match_teams"], keep="first")
-    return future_matches
+    matches = matches.drop_duplicates(subset=["date", "match_teams"], keep="first")
+    return matches
 
 # Computes rolling averages for a team's previous matches
 def get_rolling_averages(matches, window=3, team_col="team"):
@@ -82,103 +74,91 @@ def get_opponent_rolling_averages(matches, window=3):
     return opposition_rolling
 
 # Trains data with RFC and returns accuracy & precision
-def use_random_forest_classifier(data, predictors):
-    rf = RandomForestClassifier(n_estimators=50, min_samples_split=10, random_state=1)
-    train = data[data["date"] < "2022-01-01"]
-    test = data[data["date"] > "2022-01-01"]
-
+def use_random_forest_classifier(train_data, prediction_data, predictors):
+    rf = RandomForestClassifier(n_estimators=100, min_samples_split=12, random_state=3)
+    
     # Trains model and predicts future matches after 2022-01-01
-    rf.fit(train[predictors], train["result_code"])
-    preds = rf.predict(test[predictors])
-
-    # Creates table for displaying with actual data and predicted data
-    combined_data = pd.DataFrame({
-        "date": test["date"],
-        "actual": test["result_code"],
-        "predicted": preds,
-        "team": test["team"],
-        "opponent": test["opponent"],
-    }, index=test.index)
-
-    precision = precision_score(test["result_code"], preds, average="macro")
+    rf.fit(train_data[predictors], train_data["result_code"])
+    probs = rf.predict_proba(prediction_data[predictors])
     
-    combined_data = combined_data.sort_values("date").reset_index(drop=True)
+    # Map probabilites into unique columns
+    prob_map = {-1: "away_win_prob", 0: "draw_prob", 1: "home_win_prob"}
+    for i, cls in enumerate(rf.classes_):
+        prediction_data[prob_map[cls]] = probs[:, i]
     
-    return combined_data, precision
+    # Creates most likely column predictions and actual result
+    prediction_data["predicted"] = [ {-1:"L",0:"D",1:"W"}[cls] for cls in rf.classes_[probs.argmax(axis=1)] ]
+    prediction_data["actual"] = prediction_data["result_code"].map({-1: "L", 0: "D", 1: "W"})
+    prediction_data = prediction_data.sort_values("date").reset_index(drop=True)
+    
+    precision = precision_score(prediction_data["actual"], prediction_data["predicted"], average="macro")
+    
+    return prediction_data, precision
+
+# Combines necessary data to pass into model to predict future matches
+def get_future_match_predictions(matches_data, window=3):
+    # Compute rolling averages
+    matches_rolling = get_rolling_averages(matches_data, window=window)
+    opposition_rolling = get_opponent_rolling_averages(matches_data, window=window)
+
+    model_predictors = ["venue_code", "opp_code", "gf_rolling3", "ga_rolling3", "xg_rolling3", 
+                    "xga_rolling3", "opp_gf_rolling3", "opp_ga_rolling3", "opp_xg_rolling3", "opp_xga_rolling3"]
+
+    # Merge team and opponent rolling stats
+    combined_data = matches_rolling.merge(
+        # Compares team and opponent in both datasets and merges same data
+        opposition_rolling[
+            ["team", "date", "opp_code"] +
+            [col for col in opposition_rolling.columns if col.startswith("opp_")]
+        ],
+        left_on=["opponent", "date"],
+        right_on=["team", "date"],
+        how="left"
+    )
+
+    # Drops duplicate columns and renames properly
+    combined_data = combined_data.drop(columns=["team_y", "opp_code_y"]).rename(
+        columns={"team_x": "team", "opp_code_x": "opp_code"}
+    )
+    
+    train_data = combined_data[combined_data["date"] < "2022-01-01"]
+    prediction_data = get_unique_matches(combined_data[combined_data["date"] > "2022-01-01"])
+
+    predictions, precision = use_random_forest_classifier(train_data, prediction_data, model_predictors)
+    return predictions, precision
 
 
 #
 # API calls
 #
-# app = Flask(__name__)
-# CORS(app)
 
-# @app.route("/api/future-matches")
-# def get_future_matches():
-#     matches = get_matches_data()
-#     # Gets matches after Jan 1 2022
-#     future_matches = matches[matches["date"] > "2022-01-01"].sort_values(by=["date", "time"])
+# Returns next 10 future matches
+@app.route("/api/future-matches")
+def get_future_matches():
+    # Gets matches after Jan 1 2022
+    future_matches = matches_data[matches_data["date"] > "2022-01-01"].sort_values(by=["date", "time"])
 
-#     # Removes duplicate matches based on date and new column of combined teams
-#     future_matches["match_teams"] = future_matches.apply(lambda row: tuple(sorted([row["team"], 
-#         row["opponent"]])), axis=1)
-#     future_matches = future_matches.drop_duplicates(subset=["date", "match_teams"], keep="first")
+    # Removes duplicate matches based on date and new column of combined teams
+    future_matches["match_teams"] = future_matches.apply(lambda row: tuple(sorted([row["team"], 
+        row["opponent"]])), axis=1)
+    future_matches = future_matches.drop_duplicates(subset=["date", "match_teams"], keep="first")
     
-#     # Gets next 10 matches and formats into readable date
-#     future_ten_matches = future_matches[["date", "time", "team", "opponent"]].head(10)
-#     future_ten_matches["date"] = future_ten_matches["date"].apply(lambda x: x.strftime('%Y-%m-%d'))
-#     return jsonify(future_ten_matches.to_dict(orient="records"))
+    # Gets next 10 matches and formats into readable date
+    future_ten_matches = future_matches[["id", "date", "time", "team", "opponent"]].head(10)
+    future_ten_matches["date"] = future_ten_matches["date"].apply(lambda x: x.strftime('%Y-%m-%d'))
+    return jsonify(future_ten_matches.to_dict(orient="records"))
 
-# if __name__ == "__main__":
-#     app.run(debug=True, port=5050)
+# Returns probabilities for win, tie, and loss percentages
+@app.route("/api/predict-match", methods=["POST"])
+def get_match_prediction():
+    data = request.get_json()
+    match_id = data.get("matchId")
 
-# @app.route("/api/predict-match", methods=["POST"])
-# def get_match_prediction():
-#     return
+    predictions, _ = get_future_match_predictions(matches_data)
+    match_prediction = predictions[predictions["id"].astype(str) == match_id]
+    match_probs = match_prediction[["home_win_prob", "draw_prob", "away_win_prob"]].iloc[0] * 100
+    
+    return jsonify(match_probs.round(1).to_dict())
 
-
-#
-# Main method
-# 
-matches_data = get_matches_data()
-# matches_data.to_csv("matches_data.csv", index=False)
-matches_rolling_3 = get_rolling_averages(matches_data, window=3)
-# matches_rolling_3.to_csv("rolling_data.csv", index=False)
-opposition_rolling_3 = get_opponent_rolling_averages(matches_data, window=3)
-# opposition_rolling_3.to_csv("opp_rolling.csv", index=False)
-
-# Merge opponent rolling data into team rolling data
-matches_combined_rolling = matches_rolling_3.merge(
-    # Compares team and opponent in both datasets and merges same data
-    opposition_rolling_3[
-        ["team", "date", "opp_code"] +
-        [col for col in opposition_rolling_3.columns if col.startswith("opp_")]
-    ],
-    left_on=["opponent", "date"],
-    right_on=["team", "date"],
-    how="left"
-)
-
-# Drops duplicate columns and renames properly
-matches_combined_rolling = matches_combined_rolling.drop(
-    columns=["team_y", "opp_code_y"]
-)
-matches_combined_rolling = matches_combined_rolling.rename(
-    columns={"team_x": "team", "opp_code_x": "opp_code"}
-)
-# matches_combined_rolling.to_csv("combined_rolling.csv", index=False)
-
-model_predictors = [
-    "venue_code", "opp_code",
-    "gf_rolling3", "ga_rolling3",
-    "sh_rolling3", "sot_rolling3",
-    "xg_rolling3", "xga_rolling3",
-    "opp_gf_rolling3", "opp_ga_rolling3",
-    "opp_sh_rolling3", "opp_sot_rolling3",
-    "opp_xg_rolling3", "opp_xga_rolling3"
-]
-
-model_data, precision = use_random_forest_classifier(matches_combined_rolling, model_predictors)
-
-print("Model precision: ", precision)
-model_data.to_csv("future_match_predictions.csv", index=False)
+if __name__ == "__main__":
+    app.run(debug=True, port=5050)
