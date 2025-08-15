@@ -29,12 +29,14 @@ matches_data["venue_code"] = matches_data["venue"].astype("category").cat.codes
 matches_data["opp_code"] = matches_data["opponent"].astype("category").cat.codes
 matches_data["result_code"] = matches_data["result"].map({"W": 1, "D": 0, "L": -1})
 
+#
+# Functions
+#
+
 # Gets unique matches so model only predicts each match once
 def get_unique_matches(matches):
     
-    matches["match_teams"] = matches.apply(
-        lambda row: tuple(sorted([row["team"], row["opponent"]])), axis=1
-    )
+    matches["match_teams"] = matches.apply(lambda row: (row["team"], row["opponent"]), axis=1)
     matches = matches.drop_duplicates(subset=["date", "match_teams"], keep="first")
     return matches
 
@@ -127,7 +129,6 @@ def get_future_match_predictions(matches_data, window=3):
     predictions, precision = use_random_forest_classifier(train_data, prediction_data, model_predictors)
     return predictions, precision
 
-
 #
 # API calls
 #
@@ -135,6 +136,10 @@ def get_future_match_predictions(matches_data, window=3):
 # Returns next 10 future matches
 @app.route("/api/future-matches")
 def get_future_matches():
+    # Default page data for displaying matches
+    page = int(request.args.get("page", 1))
+    page_size = int(request.args.get("page_size", 10))
+    
     # Gets matches after Jan 1 2022
     future_matches = matches_data[matches_data["date"] > "2022-01-01"].sort_values(by=["date", "time"])
 
@@ -144,9 +149,15 @@ def get_future_matches():
     future_matches = future_matches.drop_duplicates(subset=["date", "match_teams"], keep="first")
     
     # Gets next 10 matches and formats into readable date
-    future_ten_matches = future_matches[["id", "date", "time", "team", "opponent"]].head(10)
-    future_ten_matches["date"] = future_ten_matches["date"].apply(lambda x: x.strftime('%Y-%m-%d'))
-    return jsonify(future_ten_matches.to_dict(orient="records"))
+    future_matches = future_matches[["id", "date", "time", "team", "opponent"]]
+    future_matches["date"] = future_matches["date"].apply(lambda x: x.strftime('%Y-%m-%d'))
+    
+    # Gets matches for requested page
+    start_idx = (page - 1) * page_size
+    end_idx = start_idx + page_size
+    page_matches = future_matches.iloc[start_idx:end_idx]
+    
+    return jsonify(page_matches.to_dict(orient="records"))
 
 # Returns probabilities for win, tie, and loss percentages
 @app.route("/api/predict-match", methods=["POST"])

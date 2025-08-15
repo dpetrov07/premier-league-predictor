@@ -1,35 +1,31 @@
-/* Container */
 .container {
-  max-width: 800px;
-  margin: 40px auto;
+  max-width: 700px;
+  margin: 60px auto;
   padding: 20px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: Tahoma, Verdana, sans-serif;
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* Header */
 .header {
   text-align: center;
   color: #2c3e50;
-  margin-bottom: 40px;
+  margin-bottom: 50px;
 }
 
-/* Sections */
 .section {
-  margin-bottom: 40px;
+  margin-bottom: 5px;
 }
 
 .section-title {
-  font-size: 24px;
+  font-size: 21px;
   color: #34495e;
   border-bottom: 2px solid #3498db;
   padding-bottom: 6px;
   margin-bottom: 20px;
 }
 
-/* Team list */
 .team-list {
   list-style-type: none;
   padding-left: 0;
@@ -37,30 +33,98 @@
 
 .team-list li {
   font-size: 18px;
-  padding: 8px 0;
+  padding: 6px 0;
   border-bottom: 1px solid #ddd;
 }
 
-/* Matches table */
 .matches-table {
-  width: 100%;
+  width: 90%;
+  margin: 0 auto;
   border-collapse: collapse;
+  border-bottom: 2px solid #ddd;
+  table-layout: auto;
 }
 
 .matches-table th {
   background-color: #3498db;
   color: white;
   text-align: left;
-  padding: 12px 15px;
+  padding: 8px 10px;
 }
 
 .matches-table td {
-  padding: 12px 15px;
-  border-bottom: 1px solid #ddd;
-  font-size: 16px;
+  padding: 8px 10px;
+  text-align: left;
 }
 
 .matches-table tbody tr:hover {
   background-color: #f1f1f1;
   cursor: default;
+}
+
+.prediction-row {
+  background-color: #f8f8f8;
+}
+
+.prediction-box {
+  display: flex;
+  gap: 20px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;  
+}
+
+.matches-table tbody tr {
+  cursor: pointer;
+}
+
+.page-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+  gap: 15px;
+}
+
+.page-buttons button {
+  padding: 3px 5px;
+  border: 1px solid #ccc;
+  background-color: transparent;
+  color: #333;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.page-buttons button:hover:not(:disabled) {
+  color: #3498db;
+  border-color: #3498db;
+}
+
+.page-buttons button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.page-indicator {
+  font-weight: bold;
+}
+
+.spinner {
+  font-size: 24px;
+  display: inline-block;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  100% { transform: rotate(360deg); }
 }
